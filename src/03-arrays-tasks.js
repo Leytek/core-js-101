@@ -200,7 +200,7 @@ function getTail(arr, n) {
  *    +'30,31,32,33,34'
  */
 function toCsvText(arr) {
-  return arr.map((c) => `${c.toString()}`).join`\n`;
+  return arr.map((c) => c.toString()).join`\n`;
 }
 
 /**
@@ -357,7 +357,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-  return arr.reduce((acc, c) => (!!c === false ? acc + 1 : acc), 0);
+  return arr.reduce((acc, c) => (!c ? acc + 1 : acc), 0);
 }
 
 /**
@@ -514,7 +514,8 @@ function group(array, keySelector, valueSelector) {
   return array.reduce((acc, c) => {
     const key = keySelector(c);
     const val = valueSelector(c);
-    acc.set(key, [...(acc.has(key) ? acc.get(key) : []), val]);
+    if (acc.has(key)) acc.get(key).push(val);
+    else acc.set(key, [val]);
     return acc;
   }, new Map());
 }
@@ -574,9 +575,9 @@ function getElementByIndexes(arr, indexes) {
  *
  */
 function swapHeadAndTail(arr) {
-  const center = arr.length / 2;
-  if (Number.isInteger(center)) return [...arr.slice(center), ...arr.slice(0, center)];
-  return [...arr.slice(Math.ceil(center)), arr[Math.trunc(center)], ...arr.slice(0, center)];
+  const c = arr.length / 2;
+  if (arr.length % 2) return [...arr.slice(c + 1), arr[Math.trunc(c)], ...arr.slice(0, c)];
+  return [...arr.slice(c), ...arr.slice(0, c)];
 }
 
 

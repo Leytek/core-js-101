@@ -12,7 +12,7 @@
  * For rfc2822 date specification refer to : http://tools.ietf.org/html/rfc2822#page-14
  *
  * @param {string} value
- * @return {date}
+ * @return {Date}
  *
  * @example:
  *    'December 17, 1995 03:24:00'    => Date()
@@ -28,7 +28,7 @@ function parseDataFromRfc2822(value) {
  * For ISO 8601 date specification refer to : https://en.wikipedia.org/wiki/ISO_8601
  *
  * @param {string} value
- * @return {date}
+ * @return {Date}
  *
  * @example :
  *    '2016-01-19T16:07:37+00:00'    => Date()
@@ -43,8 +43,8 @@ function parseDataFromIso8601(value) {
  * Returns true if specified date is leap year and false otherwise
  * Please find algorithm here: https://en.wikipedia.org/wiki/Leap_year#Algorithm
  *
- * @param {date} date
- * @return {bool}
+ * @param {Date} date
+ * @return {boolean}
  *
  * @example :
  *    Date(1900,1,1)    => false
@@ -65,8 +65,8 @@ function isLeapYear(date) {
  * Returns the string representation of the timespan between two dates.
  * The format of output string is "HH:mm:ss.sss"
  *
- * @param {date} startDate
- * @param {date} endDate
+ * @param {Date} startDate
+ * @param {Date} endDate
  * @return {string}
  *
  * @example:
@@ -98,9 +98,12 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-  const a = Math.abs(((((date.getUTCHours() % 12)) * 30)
-    - (11 * date.getUTCMinutes()) / 2) * (Math.PI / 180));
-  return a > Math.PI ? a % Math.PI : a;
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  const hoursAngle = (hours % 12) * 30 + (1 / 12) * minutes * 6;
+  const minutesAngle = minutes * 6;
+  const radians = Math.abs((hoursAngle - minutesAngle) * (Math.PI / 180));
+  return radians > Math.PI ? radians % Math.PI : radians;
 }
 
 

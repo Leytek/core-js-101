@@ -189,7 +189,7 @@ function roundToPowerOfTen(num, pow) {
  * See: https://en.wikipedia.org/wiki/Primality_test
  *
  * @param {number} n
- * @return {bool}
+ * @return {boolean}
  *
  * @example:
  *   4 => false
@@ -202,7 +202,7 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
-  if (n < 2 || (n > 3 && !(n % 2 && n % 3))) return false;
+  if ((!(n % 2 && n % 3) && n > 3) || n < 2) return false;
   for (let i = 5; i * i <= n; i += 6) {
     if (!(n % i && n % (i + 2))) return false;
   }
